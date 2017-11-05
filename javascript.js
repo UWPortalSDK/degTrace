@@ -18,9 +18,9 @@ angular.module('portalApp')
             $scope.portalHelpers.showView('degTraceDetails.html', 2);
         }
 
-        
+        // Trying to access the uwapi :c
         //$scope.fetch()
-		var myCourses = new Object(); //store own courses
+		/*var myCourses = new Object(); //store own courses
         myCourses[0] = "CS/137";
         var courseData = new Object();
         function fetch() {
@@ -28,6 +28,6 @@ angular.module('portalApp')
                 .then(function(response) {
                     $scope.details = response.data;
                 });
-        }
+        }*/
 
     }]);
