@@ -17,7 +17,20 @@ angular.module('portalApp')
             $scope.detailsItem = item;
             $scope.portalHelpers.showView('degTraceDetails.html', 2);
         }
-
+		
+        $scope.numCoursesRequired = 40;
+        $scope.numCoreCourses = 20;
+        $scope.numBreadthCourses = 20;
+        $scope.numCoreTaken = 10;
+        $scope.numBreadthTaken = 15;
+        $scope.first = Math.floor(+$scope.numCoreTaken / +$scope.numCoreCourses * (+$scope.numCoreCourses / +$scope.numCoursesRequired) * 100);
+        $scope.second = Math.floor(+$scope.numBreadthTaken / +$scope.numBreadthCourses * (+$scope.numBreadthCourses / +$scope.numCoursesRequired) * 100);
+        $scope.third = 100 - +$scope.first - +$scope.second;
+        alert($scope.first); //Core completed
+        alert($scope.second); //Breadth completed
+        alert($scope.third); // Remainder
+        
+        
         // Trying to access the uwapi :c
         //$scope.fetch()
 		/*var myCourses = new Object(); //store own courses
