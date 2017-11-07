@@ -3,11 +3,12 @@
 function getOpenData() {
     // Paste your API key here. IMPORTANT: DO NOT PUSH THIS TO GITHUB, STORE KEY IN DB
 	// (See documentation on "Managing Private Data" on the "SDK Document" documentation page)
-    var apiKey = ""; 
+    var apiKey = "fd2948fdde9149cf94c403b3c64d325d"; 
+    var link = "courses/PHYS/375/prerequisites";
     if (apiKey == "")
         return '{"error":"No Api Key! Add your key in the server script file."}';
 
-    return proxy.GetProxy('https://api.uwaterloo.ca/v2/' + link + '.json?key=' + apiKey);
+    return proxy.GetProxy('https://api.uwaterloo.ca/v2/courses/PHYS/375/prerequisites.json?key=' + apiKey);
 }
 
 function getMockData(){
@@ -22,13 +23,6 @@ function getMockData(){
             "method_id":1723
           },
           "data":[
-            {
-              "id":309685,
-              "title":"UW Mambo Club",
-              "start":"2016-02-18T20:00:00-05:00",
-              "end":"2016-02-18T22:00:00-05:00",
-              "url":"http:\/\/www.feds.ca\/event\/uw-mambo-club\/2016-02-18\/"
-            },
             {
               "id":310643,
               "title":"Social Salsa Practice",
@@ -67,7 +61,8 @@ function getStudentData() {
 		plans: user.Student.PlanTitles,
 		formOfStudy: user.Student.FormOfStudy,
 		level: user.Student.Level,
-		studentNum: user.Student.StudentNumber
+		studentNum: user.Student.StudentNumber,
+        courses: user.Student.Courses
 	};
     
 	// Can log the whole object to check what is being returned
