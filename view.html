@@ -18,7 +18,6 @@
 
 <!-- This template gets shown when user clicks one of the items in the list -->
 <script type="text/ng-template" id="degTraceDetails.html">
-    <!-- 'wr' and 'wc' are short for 'widget-row' and 'widget-cell' -->
     <wr>
         <wc>
             <h2>{{detailsItem.title}}</h2></wc>
@@ -33,8 +32,40 @@
     </wr>
 </script>
 
+<!--Open Data-->
+<div class="collapseMe">
+    <widget-row>
+        <widget-cell>
+            <h2>Open Data API Example</h2>
+        </widget-cell>
+    </widget-row>
+    <!-- using AngularJS 'limitTo' to shorten the list to 5 items -->
+    <widget-list list="item in openDataExampleData.value | limitTo:5">
+        <widget-row>
+            <widget-cell>
+                <div class="itemName">{{item.vendor_name}}</div>
+            </widget-cell>
+        </widget-row>
+    </widget-list>
+</div>
 
-
+<!-- MOCK DATA API EXAMPLE -->
+    <div class="collapseMe">
+        <widget-row>
+            <widget-cell>
+                <h2>Mock Data API Example</h2>
+            </widget-cell>
+        </widget-row>
+        
+        <widget-list list="item in mockDataExampleData.value">
+            <widget-row>
+                <widget-cell>
+                <div class="itemName">{{item.title}}</div>
+                <div class="pDetails">{{item.start | momentDate : 'MMMM DD YYYY, h:mm'}}</div>
+                </widget-cell>
+            </widget-row>
+        </widget-list>
+    </div>
 
 <!-- Stuff we actually did :| -->
 
@@ -43,3 +74,27 @@
     <div class="progress-bar progress-bar-warning" role="progressbar" style="width: {{second}}%"></div>
     <div class="progress-bar progress-bar-danger" role="progressbar" style="width: {{third}}%"></div>
 </div>
+
+
+
+
+
+
+
+	<!-- Student Data-->
+	<ul>
+        <li>{{studentData.career}}</li>
+        <li>{{studentData.faculty}}</li>
+        <li>{{studentData.studentNum}}</li>
+		<li>{{studentData.level}}</li>
+			<li ng-if="studentData.departments != null">Departments
+				<ul>
+					<li ng-repeat="department in studentData.departments">{{department}}</li>
+				</ul>
+			</li>
+			<li ng-if="studentData.plans != null">Plans
+				<ul>
+					<li ng-repeat="plan in studentData.plans">{{plan}}</li>
+				</ul>
+			</li>
+   </ul>
