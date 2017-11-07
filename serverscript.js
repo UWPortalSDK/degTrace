@@ -3,12 +3,12 @@
 function getOpenData() {
     // Paste your API key here. IMPORTANT: DO NOT PUSH THIS TO GITHUB, STORE KEY IN DB
 	// (See documentation on "Managing Private Data" on the "SDK Document" documentation page)
-    var apiKey = "fd2948fdde9149cf94c403b3c64d325d"; 
-    var link = "courses/PHYS/375/prerequisites";
+    var apiKey = ""; 
+    var link = "courses/PHYS/375/prerequisites"; //test
     if (apiKey == "")
         return '{"error":"No Api Key! Add your key in the server script file."}';
 
-    return proxy.GetProxy('https://api.uwaterloo.ca/v2/courses/PHYS/375/prerequisites.json?key=' + apiKey);
+    return proxy.GetProxy('https://api.uwaterloo.ca/v2/' + link + '.json?key=' + apiKey);
 }
 
 function getMockData(){
