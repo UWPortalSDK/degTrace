@@ -26,8 +26,6 @@ angular.module('portalApp')
 
         // Import variables and functions from service
         $scope.studentData = {};
-        $scope.portalHelpers.showView('sampleStudentDataMain.html', 1);
-        $scope.portalHelpers.toggleLoading(false);
 
         // Call server to fetch student data
         $scope.portalHelpers.invokeServerFunction({
@@ -99,7 +97,7 @@ angular.module('portalApp')
                 sourceLoaded();
             });
 
-        }
+        };
 
         function sourceLoaded() {
             sourcesLoaded++;
