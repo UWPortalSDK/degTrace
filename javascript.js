@@ -1,13 +1,13 @@
 angular.module('portalApp')
-    .controller('degTraceCtrl', ['$scope', '$http', '$q', 'sampleOpenDataFactory', function($scope, $http, $q, sampleOpenDataFactory) {
+    .controller('degTraceCtrl', ['$scope', '$http', '$q', 'OpenDataFactory', function($scope, $http, $q, OpenDataFactory) {
 
         // Import variables and functions from service
-        $scope.loading = sampleOpenDataFactory.loading;
-        $scope.openDataExampleData = sampleOpenDataFactory.openDataExampleData;
-        $scope.mockDataExampleData = sampleOpenDataFactory.mockDataExampleData;
+        $scope.loading = OpenDataFactory.loading;
+        $scope.openDataExampleData = OpenDataFactory.openDataExampleData;
+        $scope.mockDataExampleData = OpenDataFactory.mockDataExampleData;
 
         // initialize the service
-        sampleOpenDataFactory.init($scope);
+        OpenDataFactory.init($scope);
 
         // watch for changes in the loading variable
         $scope.$watch('loading.value', function() {
@@ -52,7 +52,7 @@ angular.module('portalApp')
     }])
 
     // Factory maintains the state of the widget
-    .factory('sampleOpenDataFactory', ['$http', '$rootScope', '$filter', '$q', function($http, $rootScope, $filter, $q) {
+    .factory('OpenDataFactory', ['$http', '$rootScope', '$filter', '$q', function($http, $rootScope, $filter, $q) {
         var initialized = {
             value: false
         };

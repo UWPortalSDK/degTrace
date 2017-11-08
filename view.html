@@ -1,26 +1,23 @@
-<!-- Primary template that will get shown when widget loads -->
+c<!-- Primary template that will get shown when widget loads -->
 <script type="text/ng-template" id="degTraceMain.html">
 
 
     <!--Open Data-->
-    <div class="collapseMe">
         <widget-row>
             <widget-cell>
                 <h2>Open Data API Example</h2>
             </widget-cell>
         </widget-row>
         <!-- using AngularJS 'limitTo' to shorten the list to 5 items -->
-        <widget-list list="item in openDataExampleData.value"> <!--| limitTo:5-->
+        <widget-list list="item in openDataExampleData.value | limitTo:5"> <!--| limitTo:5-->
             <widget-row>
                 <widget-cell>
-                    <div class="itemName">{{item.prerequisites}}</div>
+                    <div class="itemName">{{item.vendor_name}}</div>
                 </widget-cell>
             </widget-row>
         </widget-list>
-    </div>
 
     <!-- MOCK DATA API EXAMPLE -->
-    <div class="collapseMe">
         <widget-row>
             <widget-cell>
                 <h2>Mock Data API Example</h2>
@@ -30,12 +27,11 @@
         <widget-list list="item in mockDataExampleData.value">
             <widget-row>
                 <widget-cell>
-                    <div class="itemName">{{item.title}}</div>
+                    <div class="itemName">{{item.id}}</div>
                     <div class="pDetails">{{item.start | momentDate : 'MMMM DD YYYY, h:mm'}}</div>
                 </widget-cell>
             </widget-row>
         </widget-list>
-    </div>
 
     <!-- Stuff we actually did :| -->
 
