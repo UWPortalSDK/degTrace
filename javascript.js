@@ -1,47 +1,115 @@
 angular.module('portalApp')
-.controller('degTraceCtrl', ['$scope', function ($scope) {
-	
-	// mock data
-	$scope.items = [
-		{
-			title:'Item 1',
-			tags: ['tag A', 'tag B', 'tag C'],
-			details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-		},
-		{
-			title:'Item 2',
-			tags: ['tag D', 'tag E', 'tag F'],
-			details: 'Mauris cursus, sapien et malesuada ultrices, purus sapien iaculis tellus, quis semper magna est at leo.'
-		},
-		{
-			title:'Item 3',
-			tags: ['tag A', 'tag H'],
-			details: 'Donec id quam eu odio feugiat sagittis. Duis a tempus neque. Praesent elementum quis ante quis commodo. Sed tincidunt aliquet dolor sit amet laoreet. '
-		},
-		{
-			title:'Item 4',
-			tags: ['tag I'],
-			details: 'Proin sem quam, rutrum id ante id, scelerisque tempor quam. Curabitur pharetra turpis at sem placerat, non vehicula ligula tincidunt.'
-		},
-		{
-			title:'Item 5',
-			tags: ['tag C', 'tag K', 'tag B'],
-			details: 'Mauris nec ultricies metus. Cras et dictum justo. Nam a ullamcorper dolor. Cras fringilla metus vel facilisis vehicula.'
-		},
-		{
-			title:'Item 6',
-			tags: ['tag A', 'tag B', 'tag C'],
-			details: 'Curabitur scelerisque lorem risus, in luctus orci hendrerit non. Praesent quis tellus dapibus dolor consectetur volutpat.'
-		}
-	];
-	
-	// Show main view in the first column as soon as controller loads
-	$scope.portalHelpers.showView('degTraceMain.html', 1);
-	
-	// This function gets called when user clicks an item in the list
-	$scope.showDetails = function(item){
-		// Make the item that user clicked available to the template
-		$scope.detailsItem = item;		
-		$scope.portalHelpers.showView('degTraceDetails.html', 2);
-	}
-}]);
+    .controller('degTraceCtrl', ['$scope', '$http', '$q', 'OpenDataFactory', function($scope, $http, $q, OpenDataFactory) {
+
+        // Import variables and functions from service
+        $scope.loading = OpenDataFactory.loading;
+        $scope.openDataExampleData = OpenDataFactory.openDataExampleData;
+        $scope.mockDataExampleData = OpenDataFactory.mockDataExampleData;
+
+        // initialize the service
+        OpenDataFactory.init($scope);
+
+        // watch for changes in the loading variable
+        $scope.$watch('loading.value', function() {
+            // if loading
+            if ($scope.loading.value) {
+                // show loading screen in the first column, and don't append it to browser history
+                $scope.portalHelpers.showView('loading.html', 1, false);
+                // show loading animation in place of menu button
+                $scope.portalHelpers.toggleLoading(true);
+            } else {
+                $scope.portalHelpers.showView('degTraceMain.html', 1);
+                $scope.portalHelpers.toggleLoading(false);
+            }
+        });
+
+
+        // Import variables and functions from service
+        $scope.studentData = {};
+
+        // Call server to fetch student data
+        $scope.portalHelpers.invokeServerFunction({
+                functionName: 'getData',
+                uniqueNameId: 'sampleStudentData'
+            })
+            .then(function(result) {
+                $scope.studentData = result;
+                console.log(result);
+            });
+
+        $scope.numCoursesRequired = 40;
+        $scope.numCoreCourses = 20;
+        $scope.numBreadthCourses = 20;
+        $scope.numCoreTaken = 10;
+        $scope.numBreadthTaken = 15;
+        $scope.first = Math.floor(+$scope.numCoreTaken / +$scope.numCoreCourses * (+$scope.numCoreCourses / +$scope.numCoursesRequired) * 100);
+        $scope.second = Math.floor(+$scope.numBreadthTaken / +$scope.numBreadthCourses * (+$scope.numBreadthCourses / +$scope.numCoursesRequired) * 100);
+        $scope.third = 100 - +$scope.first - +$scope.second;
+        //alert($scope.first); //Core completed
+        //alert($scope.second); //Breadth completed
+        //alert($scope.third); // Remainder
+
+    }])
+
+    // Factory maintains the state of the widget
+    .factory('OpenDataFactory', ['$http', '$rootScope', '$filter', '$q', function($http, $rootScope, $filter, $q) {
+        var initialized = {
+            value: false
+        };
+
+        // Your variable declarations
+        var loading = {
+            value: true
+        };
+        var openDataExampleData = {
+            value: null
+        };
+        var mockDataExampleData = {
+            value: null
+        };
+
+        var sourcesLoaded = 0;
+
+        var init = function($scope) {
+            if (initialized.value)
+                return;
+            initialized.value = true;
+
+            // Place your init code here:
+
+            // OPEN DATA API EXAMPLE
+            $scope.portalHelpers.invokeServerFunction({
+                functionName: 'getOpenData',
+                uniqueNameId: 'sampleOpenData'
+            }).then(function(result) {
+                console.log('getopendata data: ', result);
+                openDataExampleData.value = result.data;
+                sourceLoaded();
+            });
+
+            // MOCK DATA API EXAMPLE
+            $scope.portalHelpers.invokeServerFunction({
+                functionName: 'getMockData',
+                uniqueNameId: 'sampleOpenData'
+            }).then(function(result) {
+                console.log('getmockdata data: ', result);
+                mockDataExampleData.value = result.data;
+                sourceLoaded();
+            });
+
+        };
+
+        function sourceLoaded() {
+            sourcesLoaded++;
+            if (sourcesLoaded > 1)
+                loading.value = false;
+        }
+
+        return {
+            init: init,
+            loading: loading,
+            openDataExampleData: openDataExampleData,
+            mockDataExampleData: mockDataExampleData
+        };
+
+    }]);
